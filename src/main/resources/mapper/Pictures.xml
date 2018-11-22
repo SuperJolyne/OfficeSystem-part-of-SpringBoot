@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ports.demo.dao.PicturesDao">
+
+    <select id="getID" resultType="Pictures">
+        select PID from pictures order by PID desc limit 1
+    </select>
+
+    <insert id="savePict">
+        insert into pictures(pict,sid) values (#{pict},#{sid})
+    </insert>
+
+    <update id="savePict_2">
+        update pictures set pict = #{pict} where sid = #{sid} and date_format(date,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
+    </update>
+    
+    <update id="saveAuto1">
+        update pictures set auto1 = #{auto} where sid = #{sid} and date_format(date,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d')
+    </update>
+
+    <update id="savePict1">
+        update pictures set pict1 = #{pict1} where sid = #{sid} and date_format(date,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d')
+    </update>
+
+    <select id="judge" resultType="String">
+        select auto1 from pictures where sid = #{sid} and date_format(date,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d')
+    </select>
+
+    <select id="getPID" resultType="int">
+        select PID from pictures where sid = #{sid} and date_format(date,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d')
+    </select>
+
+    <select id="getPict" resultType="Pictures">
+        select pict,sid from pictures where date_format(date,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
+    </select>
+
+    <select id="getAuto" resultType="String">
+        select auto1 from pictures where sid = #{sid} and date_format(date,'%Y-%m-%d') = #{date}
+    </select>
+
+    <select id="getAuto2" resultType="String">
+        select autova2 from pictures where sid = #{sid} and date_format(date,'%Y-%m-%d') = #{date}
+    </select>
+
+    <select id="getPictByNow" resultType="String">
+        select pict from pictures where sid = #{sid} and date_format(date,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
+    </select>
+
+    <select id="getAutoByNow" resultType="String">
+        select auto1 from pictures where sid = #{sid} and date_format(date,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
+    </select>
+
+    <select id="getPict1ByNow" resultType="String">
+        select pict1 from pictures where sid = #{sid} and date_format(date,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
+    </select>
+
+    <select id="getPict1" resultType="Pictures">
+        select pict1,sid from pictures where date_format(date,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
+    </select>
+
+    <update id="deletePict">
+        update pictures set pict1 = 'null' where date_format(date,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
+    </update>
+
+    <select id="viewPict1" resultType="String">
+        select pict1 from pictures where date_format(date,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
+    </select>
+</mapper>

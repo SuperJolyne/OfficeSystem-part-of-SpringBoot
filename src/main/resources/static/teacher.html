@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>demo</title>
+    <!--<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">-->
+    <style type="text/css">
+   /*     body{
+          background: #6484B8;
+          }*/
+
+        .title{
+            text-align: center;
+        }
+
+
+        nav {
+            display: block;
+            /* position: absolute;*/
+            top: 70px;
+            width: 100%;
+        }
+        li{
+            list-style-type: none;
+            display: inline;
+            margin-right:80px;
+            font-size:25px
+        }
+        a:link {
+            color: #fff;
+            text-decoration: none;
+        }
+        a:hover {
+            color: orange;
+            text-decoration: none;
+        }
+        li > ul {
+            display: none
+        }
+        li:hover ul {display: block; position: absolute; left:200px;background-color:mediumpurple;margin:0;}
+        li:hover ul li a:link{display: block;margin-left:-30px;}
+
+        div.index{
+            display: none;
+        }
+
+        div.box{
+            text-align: center; /*让div内部文字居中*/
+            border-radius: 20px;
+            width: 800px;
+            height: auto;
+            margin: auto;
+            position: absolute;
+            top: 120px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        div.list{
+            text-align: center; /*让div内部文字居中*/
+            border-radius: 20px;
+            width: 800px;
+            height: auto;
+            margin: auto;
+            top: 120px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border:3px solid mediumpurple;
+            background: white;
+        }
+        div.calendar{
+            text-align: center; /*让div内部文字居中*/
+            border-radius: 20px;
+            width: 810px;
+            height: 460px;
+            margin: auto;
+            top: 120px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border:3px solid mediumpurple;
+            background: white;
+        }
+
+        div.inform{
+            text-align: center; /*让div内部文字居中*/
+            border-radius: 20px;
+            width: 810px;
+            height: 460px;
+            margin: auto;
+            top: 120px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border:3px solid mediumpurple;
+            background: white;
+        }
+
+        div.record{
+            text-align: center; /*让div内部文字居中*/
+            border-radius: 20px;
+            width: 800px;
+            height: auto;
+            margin: auto;
+            top: 120px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border:3px solid mediumpurple;
+            background: white;
+        }
+
+    </style>
+
+    <script src="http://unpkg.com/vue/dist/vue.js"></script>
+
+    <script type="text/javascript">
+        window.onload = function(){
+
+            var lis = new Vue({
+                el:'#showbox',
+                data:{
+                    isShow:true,
+                },
+                methods:{
+                    show:function(){
+
+                        document.getElementById('box').innerHTML = '';
+                        document.getElementById('box').innerHTML = document.getElementById('list').innerHTML;
+                    },
+
+                    calendar:function(){
+
+                        document.getElementById('box').innerHTML = '';
+                        document.getElementById('box').innerHTML = document.getElementById('calendar').innerHTML;
+                    },
+                    inform:function(){
+
+                        document.getElementById('box').innerHTML = '';
+                        document.getElementById('box').innerHTML = document.getElementById('inform').innerHTML;
+                    },
+                    record:function(){
+                        document.getElementById('box').innerHTML = '';
+                        document.getElementById('box').innerHTML = document.getElementById('record').innerHTML;
+                    }
+                }
+            });
+
+
+        }
+    </script>
+
+
+
+
+</head>
+<body>
+<img id="bg" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536255054523&di=92720117b7c42791c5f7fddc05d99600&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0159fa5944bcd3a8012193a34b762d.jpg%402o.jpg"
+     width="100%" height="220%"   style="right: 0; bottom: 0;position: absolute; top: 0; left: 0; z-index: -1;opacity: 0.6" />
+
+<div class="container">
+    <div id="showbox">
+        <div class="title">
+            <h2>学生寒假管理系统  教师端</h2>
+            <nav>
+                <ul>
+                    <li  v-on:click="show()"><a href="#">List</a></li>
+                    <li  v-on:click="calendar()"><a href="#">Calendar</a></li>
+                    <li  v-on:click="inform()"><a href="#">Inform</a></li>
+                    <li  v-on:click="record()"><a href="#">Record</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!--盒子-->
+        <div v-show="isShow" class="box"  id="box"></div>
+
+    </div>
+    <!--显示列表项-->
+    <div class="index">
+        <!--学生名单-->
+        <div v-show="isShow"  id="list">
+            <div class="list">
+                <iframe align="center" width="810" height="1200"
+                        src="listStu.html" frameborder="no"
+                        border="0" marginwidth="0" marginheight="0" scrolling="yes">
+                </iframe>
+            </div>
+        </div>
+        <!--日历-->
+        <div   id="calendar">
+            <div class="calendar">
+                <iframe align="center" width="810" height="470"
+                        src="calendar.html" frameborder="no"
+                        border="0" marginwidth="0" marginheight="0" scrolling="yes">
+                </iframe>
+
+            </div>
+        </div>
+        <!--通知-->
+        <div id="inform">
+            <div class="inform">
+                <iframe align="center" width="810" height="470"
+                        src="inform.html" frameborder="no"
+                        border="0" marginwidth="0" marginheight="0" scrolling="yes">
+                </iframe>
+            </div>
+        </div>
+        <!--记录-->
+        <div  id="record">
+            <div  class="record">
+                <iframe align="center" width="810" height="1200"
+                        src="record.html" frameborder="no"
+                        border="0" marginwidth="0" marginheight="0" scrolling="no">
+                </iframe>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+</body>
+</html>

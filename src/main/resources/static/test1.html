@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-3.3.1.js"></script>
+</head>
+<body>
+    <button id="button">socket测试</button>
+
+    <script type="text/javascript">
+        var a = document.getElementById('button');
+        a.onclick=function () {
+            $.ajax({
+                type: 'get',
+                async: true,
+                url: "/push/picture",
+                contentType: "application/json;charset=utf-8",
+                success: function () {
+                    document.write("dddd");
+
+                },
+        })
+       }
+    </script>
+</body>
+</html>
+

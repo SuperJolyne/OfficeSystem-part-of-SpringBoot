@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ports.demo.dao.CalendarDao">
+    <resultMap id="BaseResultMap" type="com.ports.demo.domain.Calendar">
+        <result column="datelist" property="datelist" />
+        <result column="worknot" property="worknot" />
+        <result column="times" property="times" />
+        <result column="week" property="week"/>
+    </resultMap>
+
+    <parameterMap id="Calendar" type="com.ports.demo.domain.Calendar"/>
+
+    <sql id="Base_Column_List">
+        datelist, worknot, times, week
+    </sql>
+
+    <insert id="insertDatelist" parameterType="java.lang.String" ><!--插入月份-->
+        insert into calendar(datelist) select adddate( '${month}-01', numlist.id) as `date` from (SELECT n1.i + n10.i*10 AS id FROM num n1 cross join num as n10) as numlist
+        where adddate('${month}-01', numlist.id) &lt;= '${month}-31';
+    </insert>
+
+
+    <select id="getCalendar" resultType="Calendar" ><!--选择当年的月日-->
+        select date_format(datelist,'%m-%d') as datelist,worknot,week,weekday,times from calendar where date_format(datelist,'%Y') = date_format(now(),'%Y')
+    </select>
+
+    <select id="getMonth" resultType="java.lang.String" ><!--获取并对比月份-->
+        select distinct date_format(datelist,'%Y-%m') from calendar where date_format(datelist,'%Y-%m') = #{month}
+    </select>
+
+    <select id="getWorkTime" resultType="java.lang.String" parameterType="java.lang.String">
+        select times from calendar where date_format(datelist,'%Y-%m-%d') = #{date}
+    </select>
+
+    <select id="existMonths" resultType="java.lang.String">
+        select distinct date_format(datelist,'%Y') from calendar where date_format(datelist,'%Y') = date_format(now(),'%Y')
+    </select>
+
+    <update id="workNot" >
+        update calendar set worknot = #{status} where date_format(datelist,'%Y-%m-%d') = #{date}
+    </update>
+
+    <update id="alterWorkTime">
+        update calendar set times = #{time} where date_format(datelist,'%Y-%m-%d') = #{date}
+    </update>
+
+    <select id="datelist" resultType="Calendar">
+        select datelist from calendar where date_format(datelist,'%Y') = date_format(now(),'%Y') and  week is null
+    </select>
+    
+    <update id="setWeek">
+        update calendar set worknot = #{worknot}, week = #{week}, weekday = #{weekday} where datelist = #{datelist}
+    </update>
+
+    <update id="setWeek1">
+        update calendar set worknot = #{worknot}, week = #{week}, weekday = #{weekday}, times = #{times} where datelist = #{datelist}
+    </update>
+
+    <!--<update id="setWeek3" parameterType="java.util.List">-->
+        <!--<foreach collection="list" separator=";" item="item">-->
+        <!--update calendar set worknot = #{item.worknot} , week = #{item.week} where datelist = #{item.datelist}-->
+    <!--</foreach>-->
+    <!--</update>-->
+    
+    <select id="Days" resultType="java.lang.Integer">
+        select count(datelist) from calendar where week = (select week from calendar where date_format(datelist,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d')) and worknot = 'work'
+    </select>
+</mapper>

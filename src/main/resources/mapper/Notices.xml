@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ports.demo.dao.NoticesDao">
+    <resultMap id="BaseResultMap" type="com.ports.demo.domain.Notices">
+        <result column="notice" property="notice"/>
+        <result column="date" property="date"/>
+    </resultMap>
+    
+    <insert id="giveInform" parameterType="java.lang.String">
+        insert into notices(notice) values ( #{inform} )
+    </insert>
+
+    <select id="getInform" resultType="Notices">
+        select date_format(date,'%Y-%m-%d') as date,notice from notices where date_format(date,'%Y') = date_format(now(),'%Y')
+    </select>
+
+    <select id="getRecent" resultType="Notices">
+        select * from notices where date_format(date,'%Y-%m-%d') = (select date_format(date,'%Y-%m-%d') from notices order by date desc limit 1)
+    </select>
+
+</mapper>

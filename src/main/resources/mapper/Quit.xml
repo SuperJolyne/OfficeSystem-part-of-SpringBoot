@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ports.demo.dao.QuitDao">
+    <resultMap id="BaseResultMap" type="com.ports.demo.domain.Quit">
+        <result column="QID" property="QID"/>
+        <result column="date" property="date"/>
+        <result column="reason" property="reason"/>
+        <result column="sid" property="sid"/>
+        <association property="students" javaType="com.ports.demo.domain.Students">
+            <result column="sid" property="sid"/>
+            <result column="name" property="name"/>
+        </association>
+    </resultMap>
+
+    <insert id="saveQuit" >
+        insert into quit(sid) values ( #{sid} )
+    </insert>
+
+    <select id="getQuit" resultType="java.lang.String">
+        select date from quit where sid = #{sid} and reason is null and date_format(date,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d')
+    </select>
+
+    <update id="quitRemark" >
+         update quit set reason = #{reason} where date = #{date} and sid = #{sid}
+    </update>
+
+    <select id="getQuitRemark" resultMap="BaseResultMap">
+        select name,q.date,reason from students s right join quit q on s.sid = q.sid
+    </select>
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ports.demo.dao.DaysDao">
+    <resultMap id="BaseResultMap" type="com.ports.demo.domain.Days">
+        <result column="did" property="did"/>
+        <result column="date" property="date"/>
+        <result column="dayPlan" property="dayPlan"/>
+        <result column="per" property="per"/>
+        <!--<result column="dayRemarks" property="dayRemarks"/>-->
+        <result column="score" property="score"/>
+        <result column="comment" property="comment"/>
+        <result column="sid" property="sid"/>
+    </resultMap>
+    
+    <select id="planExist" resultType="Days">
+        select * from days where sid = #{sid} and date_format(date,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d')
+    </select>
+
+    <select id="getDay" resultType="String">
+        select distinct date_format(date,'%Y-%m-%d') as date from days where date_format(date,'%Y') = date_format(now(),'%Y')
+    </select>
+
+    <insert id="dayPlan">
+        insert into days(sid,dayPlan,per) values (#{sid}, #{dayPlan}, #{per})
+    </insert>
+
+    <update id="updatePer">
+        update days set per = #{per} where did = #{did}
+    </update>
+    
+    <select id="getDayPlan" resultType="Days">
+        select dayPlan from days where sid = #{sid} and date_format(date,'%Y-%m-%d') = #{date}
+    </select>
+
+    <select id="getDayRecord" resultType="Days">
+        select dayPlan,per from days where sid = #{sid} and date_format(date,'%Y-%m-%d') = #{date}
+    </select>
+
+    <select id="getNull" resultType="String">
+        select name from (select name,sid from students where date_format(date,'%Y')=date_format(now(),'%Y')) as s left join (select * from days where date_format(date,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')) as d on d.sid = s.sid where date is null
+    </select>
+
+    <select id="getPer" resultType="java.lang.Integer">
+        select per from days where sid in (select sid from students where name = #{name}) and date_format(date,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d')
+    </select>
+
+</mapper>

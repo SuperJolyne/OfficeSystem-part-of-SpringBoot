@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ports.demo.dao.DayRemarkDao">
+    <resultMap id="BaseResultMap" type="com.ports.demo.domain.DayRemarks">
+        <result column="RID" property="RID"/>
+        <result column="date" property="date"/>
+        <result column="dayRemark" property="dayRemark"/>
+        <result column="score" property="score"/>
+        <result column="comment" property="comment"/>
+        <result column="sid" property="sid"/>
+    </resultMap>
+
+    <insert id="saveDayRemark">
+        insert into dayremark(dayRemark,sid) values (#{dayRemark}, #{sid})
+    </insert>
+
+    <update id="updateDayRemark">
+        update dayremark set dayRemark = #{dayRemark} where sid = #{sid} and date_format(date,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
+    </update>
+
+    <select id="getDayRemark" resultType="String">
+        select dayRemark from dayremark where sid = #{sid} and date_format(date,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
+    </select>
+
+    <select id="getDayID" resultType="String">
+        select sid from dayremark where sid = #{sid} and date_format(date,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
+    </select>
+
+    <select id="getScore" resultType="java.lang.Integer">
+        select score from dayremark where sid = #{sid} and date_format(date,'%Y-%m-%d') = #{date}
+    </select>
+
+    <update id="saveScore">
+         update dayremark set score = #{score},comment = #{daycom} where sid = #{sid} and date_format(date,'%Y-%m-%d')= #{date}
+    </update>
+
+    <select id="getAllScore" resultType="com.ports.demo.domain.DayRemarks">
+        select date_format(date,'%Y-%m-%d') as date,score,dayRemark from dayremark where sid = #{sid} and date_format(date,'%Y') = date_format(now(),'%Y')
+    </select>
+
+    <select id="returnScore" resultType="com.ports.demo.domain.DayRemarks">
+        select score,comment,date_format(date,'%Y-%m-%d') as date from dayremark where sid = #{sid} and date_format(date,'%Y-%m-%d')= #{date}
+    </select>
+
+    <select id="getScore1" resultType="java.lang.Integer">
+        select score from dayremark where sid = #{sid} and date_format(date,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d')
+    </select>
+
+    <update id="score1">-- 没有写天计划扣分，第一次
+        update dayremark set score = #{score} where sid = #{sid} and date_format(date,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d')
+    </update>
+
+    <insert id="sid">
+        insert into dayremark(sid) select sid from students where name = #{name}
+    </insert>
+
+    <select id="getWeekScore" resultType="java.lang.Integer">
+        select score from weekremark where sid in(select sid from students where name = #{name}) and week in (select week from calendar where date_format(datelist,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d'))
+    </select>
+
+    <select id="getDayComment" resultType="String">
+        select comment from dayremark where sid = #{sid} and date_format(date,'%Y-%m-%d') = #{date}
+    </select>
+
+    <select id="getScore2" resultType="java.lang.Integer">
+        select score from dayremark where sid = #{sid} and date_format(date,'%Y') = date_format(now(),'%Y')
+    </select>
+</mapper>
