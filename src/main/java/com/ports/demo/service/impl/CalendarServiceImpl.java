@@ -11,8 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -23,7 +22,7 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public List<Calendar> createMonth(String s) throws ParseException {
+    public void createMonth(String s) throws ParseException {
         JSONObject jsonObject = JSONObject.parseObject(s);
         JSONArray jsonArray = jsonObject.getJSONArray("month");
 
@@ -76,7 +75,6 @@ public class CalendarServiceImpl implements CalendarService {
             }
 
         }
-        return calendarDao.getCalendar();
     }
 
     @Override
@@ -85,8 +83,8 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public List<Calendar> getCalendar() {
-        return calendarDao.getCalendar();
+    public List<Calendar> getCalendar(String date) {
+        return calendarDao.getCalendar(date);
     }
 
     //获取月匹配是否有重复月
@@ -135,6 +133,49 @@ public class CalendarServiceImpl implements CalendarService {
     @Override
     public int Days() {
         return calendarDao.Days();
+    }
+
+    @Override
+    public List<String> getMon() {
+        return calendarDao.getMon();
+    }
+
+    @Override
+    public List<String> getWeeks() {
+        List<Calendar> list = calendarDao.getWeeks();
+        Set<String> w_set = new HashSet<>();
+        Map<String,List<String>> map = new HashMap<>();
+        List<String> week_list = new ArrayList<>();
+        for (Calendar c : list){
+            String datelist = c.getDatelist();
+            String week = c.getWeek();
+            String format = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            w_set.add(week);
+            if (datelist.equals(format)){
+                List<String> l = map.get(week);
+                if (l == null){
+                    l = new ArrayList<>();
+                }
+                l.add(datelist);
+                map.put(week, l);
+                break;
+            }
+            List<String> l = map.get(week);
+            if (l == null){
+                l = new ArrayList<>();
+            }
+            l.add(datelist);
+            map.put(week, l);
+        }
+        for (String week : w_set){
+            List<String> l = map.get(week);
+            String from = l.get(0).substring(5).replace("-", "/");
+            String end = l.get(l.size()-1).substring(5).replace("-", "/");
+            //拼接起来
+            String s = week+"("+from+"-"+end+")";
+            week_list.add(s);
+        }
+        return week_list;
     }
 
 

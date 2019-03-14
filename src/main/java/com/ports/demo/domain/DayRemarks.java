@@ -16,6 +16,16 @@ public class DayRemarks {
 
     private Days days;
 
+    public String getKoufen() {
+        return koufen;
+    }
+
+    public void setKoufen(String koufen) {
+        this.koufen = koufen;
+    }
+
+    private String koufen;
+
     public Days getDays() {
         return days;
     }

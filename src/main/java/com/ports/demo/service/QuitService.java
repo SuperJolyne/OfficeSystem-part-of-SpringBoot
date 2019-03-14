@@ -10,7 +10,7 @@ public interface QuitService {
 
     List<String> getQuit(int sid);
 
-    int quitRemark(int sid, String date, String remark);
+    int quitRemark(int sid, String remark);
 
-    List<Quit> getQuitRemark();
+    List<Quit> getQuitRemark(String sid, String date);
 }

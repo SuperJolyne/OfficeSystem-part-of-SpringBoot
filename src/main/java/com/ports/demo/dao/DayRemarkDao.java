@@ -15,7 +15,9 @@ public interface DayRemarkDao {
 
     int updateDayRemark(@Param("sid") int sid, @Param("dayRemark")String dayRemark);
 
-    int getScore(@Param("sid") int sid, @Param("date") String date);
+    String getScore(@Param("sid") int sid, @Param("date") String date);
+
+    String getKoufen(@Param("sid") int sid, @Param("date") String date);
 
     int saveScore(@Param("sid")int sid, @Param("score")int score, @Param("daycom")String daycom, @Param("date")String date);
 
@@ -35,4 +37,8 @@ public interface DayRemarkDao {
     String getDayComment(@Param("sid") int sid, @Param("date") String date);
 
     List<Integer> getScore2(int sid);
+
+    void koufen(@Param("koufen") int koufen,@Param("date") String date, @Param("sid") int sid);
+
+    String getOneRemark(@Param("sid") int sid, @Param("date") String date);
 }

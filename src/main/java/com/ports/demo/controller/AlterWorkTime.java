@@ -1,7 +1,7 @@
 package com.ports.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ports.demo.normal.Context;
+import com.ports.demo.pojo.Context;
 import com.ports.demo.service.CalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +17,8 @@ public class AlterWorkTime {
 
     @RequestMapping(value = "/teacher/workTime/alter", method = RequestMethod.POST)
     public String alterTime(@RequestBody String s){
+        s = s.toLowerCase();
+        System.out.println("workTime/alter:"+s);
         JSONObject jsonObject = JSONObject.parseObject(s);
         String date = jsonObject.getString(Context.date);
         String workTime = jsonObject.getString(Context.workTime);

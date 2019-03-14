@@ -13,7 +13,7 @@ public interface DaysDao {
 
     int dayPlan(@Param("sid") int sid, @Param("dayPlan") String dayPlan, @Param("per") int per);
 
-    int updatePer(@Param("did")int did, @Param("per")int per);
+    int updatePer(@Param("did")String did, @Param("per")int per);
 
     List<Days> getDayPlan(@Param("sid") int sid,@Param("date") String date);
 

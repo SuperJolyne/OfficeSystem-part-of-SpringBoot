@@ -29,8 +29,8 @@ public class StudentsServiceImpl implements StudentsService {
     }
 
     @Override
-    public String login(String name) {
-        return studentsDao.login(name);
+    public String login(String num) {
+        return studentsDao.login(num);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class StudentsServiceImpl implements StudentsService {
         List<Map<String, Object>> listName = new ArrayList<>();
         for(Students s : list){
             String name = s.getName();
-            int sid = s.getSid();
+            String sid = s.getSid();
             Map<String, Object> map = new HashMap<>();
             map.put("name",name);
             map.put("sid",sid);
@@ -71,11 +71,13 @@ public class StudentsServiceImpl implements StudentsService {
         List<Students> list = studentsDao.getHistory(record);
         List<Map<String ,Object>> listName = new ArrayList<>();
         for(Students s : list){
+            String sid =s.getSid();
             String name = s.getName();
             int score = s.getScore();
             Map<String ,Object> map = new HashMap<>();
             map.put("name",name);
             map.put("score",score);
+            map.put("sid", sid);
             listName.add(map);
         }
         return listName;

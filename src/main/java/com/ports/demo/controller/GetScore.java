@@ -1,7 +1,7 @@
 package com.ports.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ports.demo.normal.Context;
+import com.ports.demo.pojo.Context;
 import com.ports.demo.service.DayRemarkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +23,7 @@ public class GetScore {
         int sid=jsonObject.getInteger(Context.Student_sid);
 
         Map<String ,Object> map = dayRemarkService.getAllScore(sid);
-
+        System.out.println("getScore:"+JSONObject.toJSONString(map));
         return map;
     }
 }

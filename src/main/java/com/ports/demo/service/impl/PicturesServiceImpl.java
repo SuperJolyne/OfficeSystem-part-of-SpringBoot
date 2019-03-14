@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ports.demo.dao.PicturesDao;
 import com.ports.demo.dao.StudentsDao;
 import com.ports.demo.domain.Pictures;
-import com.ports.demo.normal.Context;
+import com.ports.demo.pojo.Global;
 import com.ports.demo.service.PicturesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +13,12 @@ import sun.misc.BASE64Encoder;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.sql.ResultSet;
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -90,24 +93,30 @@ public class PicturesServiceImpl implements PicturesService {
     }
 
     @Override
-    public List<byte[]> getAuto(int sid, String date) throws Exception {
+    public List<String> getAuto(int sid, String date) throws Exception {
         Map<String ,Object> map = new HashMap<>();
-        List<byte[]> list = new ArrayList<>();
+        List<String> list = new ArrayList<>();
         String s = picturesDao.getAuto(sid,date);
         if(s!=null) {
             String[] ss = s.split("\\+");
             for (int i = 0; i < ss.length; i++) {
                 File f = new File(ss[i]);
-                InputStream input = new FileInputStream(f);
-                byte[] bytes = new byte[input.available()];
-                input.read(bytes);
-
-                BASE64Encoder encoder = new BASE64Encoder();
-                String o = encoder.encode(bytes);
-
-                BASE64Decoder decoder = new BASE64Decoder();
-                byte[] a = decoder.decodeBuffer(o);
-                list.add(a);
+                RandomAccessFile raf = new RandomAccessFile(f, "rw");
+                FileChannel channel = raf.getChannel();
+                ByteBuffer buffer = ByteBuffer.allocate(1024);
+                int bytesRead = channel.read(buffer);
+                String out = "";
+                while (bytesRead != -1){
+                    buffer.flip();
+                    CharBuffer cb = Charset.forName("utf-8").decode(buffer);
+                    out += cb;
+                    buffer.clear();
+                    bytesRead = channel.read(buffer);
+                }
+                raf.close();
+                JSONObject json = JSONObject.parseObject(out);
+                String base64 = json.getString("base64");
+                list.add(base64);
             }
         }
 
@@ -115,29 +124,42 @@ public class PicturesServiceImpl implements PicturesService {
     }
 
     @Override
-    public Map<String, Object> getPict1() throws Exception {
-        Map<String, Object> map = new HashMap<>();
+    public List<Object> getPict1() throws Exception {
+        List<Object> res_list = new ArrayList<>();
         List<Pictures> list = picturesDao.getPict1();
         for(Pictures p : list){
             String path = p.getPict1();
-            if(path != null && !path.equals("null")) {
+            //如果图片版本不是最新的，则跳过
+            if (!path.substring(0, 5).equals(Global.version)){
+                continue;
+            }
+            //如果版本是最新的，则继续，将图片版本去除
+            path = path.substring(5);
+            if(path != null && !path.equals("null") && !path.equals("")) {
                 int sid = p.getSid();
                 String name = studentsDao.getNameBySid(sid);
 
-                System.out.println(name);
                 File f = new File(path);
-                InputStream input = new FileInputStream(f);
-                byte[] bytes = new byte[input.available()];
-                input.read(bytes);
-                BASE64Encoder encoder = new BASE64Encoder();
-                String o = encoder.encode(bytes);
+                RandomAccessFile raf = new RandomAccessFile(f, "rw");
+                FileChannel channel = raf.getChannel();
+                ByteBuffer buffer = ByteBuffer.allocate(1024);
+                int bytesRead = channel.read(buffer);
+                String out = "";
+                while (bytesRead != -1){
+                    buffer.flip();
+                    CharBuffer cb = Charset.forName("utf-8").decode(buffer);
+                    out += cb;
+                    buffer.clear();
+                    bytesRead = channel.read(buffer);
+                }
+                raf.close();
+                JSONObject json = JSONObject.parseObject(out);
+                json.put("name", name);
 
-                BASE64Decoder decoder = new BASE64Decoder();
-                byte[] a = decoder.decodeBuffer(o);
-                map.put(name, a);
+                res_list.add(json);
             }
         }
-        return map;
+        return res_list;
     }
 
     @Override

@@ -11,7 +11,7 @@ public interface StudentsDao {
 
     List<String> getHistoryDate();
 
-    String login(String name);
+    String login(String num);
 
     int listStudents(@Param("name") String name, @Param("sex") String sex, @Param("num")String num, @Param("course")String course,
                      @Param("school")String school, @Param("college")String college, @Param("classes")String classes);

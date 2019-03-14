@@ -35,12 +35,17 @@ public class QuitServiceImpl implements QuitService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int quitRemark(int sid, String date, String remark) {
-        return quitDao.quitRemark(sid, date, remark);
+    public int quitRemark(int sid, String remark) {
+        return quitDao.quitRemark(sid, remark);
     }
 
     @Override
-    public List<Quit> getQuitRemark() {
-        return quitDao.getQuitRemark();
+    public List<Quit> getQuitRemark(String sid, String date) {
+        List<Quit> l = quitDao.getQuitRemark(sid,date);
+        for (Quit q : l){
+            System.out.println(q.getDate());
+            System.out.println(q.getReason());
+        }
+        return l;
     }
 }

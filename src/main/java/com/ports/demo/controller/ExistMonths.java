@@ -25,6 +25,7 @@ public class ExistMonths {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result",result);
         String out = jsonObject.toJSONString();
+        System.out.println("out:"+out);
         return out;
     }
 }

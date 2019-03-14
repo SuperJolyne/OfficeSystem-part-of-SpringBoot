@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -15,8 +16,8 @@ public class GetPicture1 {
     private PicturesService picturesService;
 
     @RequestMapping(value = "/teacher/getPicture1" , method = RequestMethod.GET)
-    public Map<String ,Object> getPicture1() throws Exception {
-        Map<String , Object> map = picturesService.getPict1();
+    public List<Object> getPicture1() throws Exception {
+        List<Object> map = picturesService.getPict1();
         return map;
     }
 }

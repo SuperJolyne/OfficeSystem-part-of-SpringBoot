@@ -1,4 +1,4 @@
-package com.ports.demo.normal;
+package com.ports.demo.pojo;
 
 public class Context {
     public static final String Student_sid ="sid";
@@ -21,15 +21,25 @@ public class Context {
 
     public static final String Days_did="did";
 
-    public static final String Days_dayPlan="dayPlan";
+    public static final String Days_dayPlan="dayplan";
 
     public static final String Days_per="per";
 
-    public static final String Days_dayRemark ="dayRemark";
+    public static final String Days_dayRemark ="dayremark";
 
     public static final String DayRemark_score="score";
 
     public static final String DayRemark_comment ="comment";
+
+    public static final String Week_wid ="wid";
+
+    public static final String Week_week ="week";
+
+    public static final String Week_weekPlan ="weekplan";
+
+    public static final String Week_remark ="remark";
+
+    public static final String Week_com ="weekcom";
 
     public static final String array="array";
 
@@ -37,7 +47,7 @@ public class Context {
 
     public static final String HistoryDate_record="record";
 
-    public static final String workTime="workTime";
+    public static final String workTime="worktime";
 
     public static final String Calendar_month="month";
 
@@ -56,8 +66,10 @@ public class Context {
     public static final String Picture_pict="pict";
 
     public static final String Quit_remark="remark";
+
+    public static final String Quit_time="time";
     //手动拍，高清图
-    public static final String Path="/home/super/桌面/";
+    public static final String Path="/home/super/pictures/";
     //抓拍图，模糊图
     public static final String Path11="/home/super/桌面/11-";
     //手动拍，高清图1

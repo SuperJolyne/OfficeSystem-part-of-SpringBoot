@@ -4,14 +4,15 @@ import com.ports.demo.domain.Calendar;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Set;
 
 public interface CalendarService {
 
-    List<Calendar> createMonth(String s) throws ParseException;
+    void createMonth(String s) throws ParseException;
 
     int insertDatelist(String month);
 
-    List<Calendar> getCalendar();
+    List<Calendar> getCalendar(String date);
 
     String getMonth(String month);//获取月匹配是否有重复月
 
@@ -28,4 +29,8 @@ public interface CalendarService {
     void setWeek(String week, String worknot, String date, int weekday);
 
     int Days();
+
+    List<String> getMon();
+
+    List<String> getWeeks();
 }

@@ -11,7 +11,7 @@ public interface QuitDao {
 
     List<String> getQuit(int sid);
 
-    int quitRemark(@Param("sid") int sid, @Param("date") String date, @Param("reason") String remark);
+    int quitRemark(@Param("sid") int sid, @Param("reason") String remark);
 
-    List<Quit> getQuitRemark();
+    List<Quit> getQuitRemark(@Param("sid") String sid, @Param("date") String date);
 }

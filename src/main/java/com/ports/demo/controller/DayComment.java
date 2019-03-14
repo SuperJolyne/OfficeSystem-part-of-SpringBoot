@@ -2,7 +2,7 @@ package com.ports.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ports.demo.domain.DayRemarks;
-import com.ports.demo.normal.Context;
+import com.ports.demo.pojo.Context;
 import com.ports.demo.service.DayRemarkService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,8 @@ public class DayComment {
 
     @RequestMapping(value = "/teacher/dayComment", method = RequestMethod.POST)
     public DayRemarks dayComment(@RequestBody String s) {
+        s = s.toLowerCase();
+        System.out.println("dayComment:"+s);
         JSONObject jsonObject = JSONObject.parseObject(s);
         int sid = jsonObject.getInteger(Context.Student_sid);
         int score = jsonObject.getInteger(Context.DayRemark_score);

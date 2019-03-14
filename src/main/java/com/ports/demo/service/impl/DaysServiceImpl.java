@@ -1,11 +1,12 @@
 package com.ports.demo.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ports.demo.dao.DayRemarkDao;
 import com.ports.demo.dao.DaysDao;
 import com.ports.demo.domain.Days;
-import com.ports.demo.normal.Context;
+import com.ports.demo.pojo.Context;
 import com.ports.demo.service.DaysService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,10 +43,13 @@ public class DaysServiceImpl implements DaysService {
         JSONArray jsonArray = JSONArray.parseArray(array);
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject Object = jsonArray.getJSONObject(i);
-            int did = Object.getInteger("did");
-            String dayPlan = Object.getString("dayPlan");
-            int per = Object.getInteger("per");
-            if(did==0){
+            String did = Object.getString(Context.Days_did);
+            String dayPlan = Object.getString(Context.Days_dayPlan);
+            int per = Object.getInteger("per");//如果用户的完成度为0，则修改为1
+            if (per == 0){
+                per = 1;
+            }
+            if(null == did || did.equals("") || did.equals("undefined")){
                 daysDao.dayPlan(sid, dayPlan, per);
             }else {
                 daysDao.updatePer(did,per);
@@ -64,7 +68,7 @@ public class DaysServiceImpl implements DaysService {
         List<Days> list = daysDao.planExist(sid);
 
         Map<String , Object> map = new HashMap<>();
-        map.put("dayRemark",getRemark);
+        map.put(Context.Days_dayRemark,getRemark);
         map.put("array",list);
         return map;
     }
@@ -81,7 +85,7 @@ public class DaysServiceImpl implements DaysService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int updatePer(int did, int per) {
+    public int updatePer(String did, int per) {
         return daysDao.updatePer(did,per);
     }
 
@@ -94,12 +98,22 @@ public class DaysServiceImpl implements DaysService {
     @Transactional(rollbackFor = Exception.class)
     public Map<String , Object> getDayRecord(int sid, String date) {
         Map<String , Object> map = new HashMap<>();
-        int score = dayRemarkDao.getScore(sid,date);
+        String koufen = dayRemarkDao.getKoufen(sid, date);
+        if (null == koufen || koufen.equals("")){
+            koufen = "0";
+        }
         String comment = dayRemarkDao.getDayComment(sid,date);
+        String dayRemark = dayRemarkDao.getOneRemark(sid, date);
+        if (null == comment || comment.equals("")){
+            comment = "暂无";
+        }
+        System.out.println("comment:"+comment);
         List<Days> list = daysDao.getDayRecord(sid, date);
-        map.put("score",score);
+        System.out.println("score:"+koufen);
+        map.put("score",koufen);
         map.put("comment",comment);
-        map.put("array",list);
+        map.put("array", list);
+        map.put("dayremark", dayRemark);
         return map;
     }
 

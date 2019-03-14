@@ -2,7 +2,7 @@ package com.ports.demo.domain;
 
 public class Students {
 
-    private int sid;
+    private String sid;
 
     private String name;
 
@@ -95,11 +95,11 @@ public class Students {
         this.date = date;
     }
 
-    public int getSid() {
+    public String getSid() {
         return sid;
     }
 
-    public void setSid(int sid) {
+    public void setSid(String sid) {
         this.sid = sid;
     }
 }

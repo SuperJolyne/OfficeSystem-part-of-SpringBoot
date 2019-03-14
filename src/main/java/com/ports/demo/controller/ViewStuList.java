@@ -19,7 +19,9 @@ public class ViewStuList {
     @RequestMapping(value = "/teacher/viewStuList", method = RequestMethod.GET)
     public List<Map<String, Object>> viewList(){
         List<Map<String, Object>> list = studentsService.viewStudents();
-
+        for (Map<String, Object> s :list){
+            System.out.println(s.toString());
+        }
         return list;
     }
 }

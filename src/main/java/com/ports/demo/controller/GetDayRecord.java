@@ -1,7 +1,7 @@
 package com.ports.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ports.demo.normal.Context;
+import com.ports.demo.pojo.Context;
 import com.ports.demo.service.DaysService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +19,8 @@ public class GetDayRecord {
 
     @RequestMapping(value = "/student/getDayRecord",method = RequestMethod.POST)
     public Map<String , Object> getDayRecord(@RequestBody String s){
+        s = s.toLowerCase();
+        System.out.println("getDayRecord:"+s);
         JSONObject jsonObject=JSONObject.parseObject(s);
         int sid=jsonObject.getInteger(Context.Student_sid);
         String date=jsonObject.getString(Context.date);

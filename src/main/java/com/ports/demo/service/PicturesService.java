@@ -18,9 +18,9 @@ public interface PicturesService {
     //学生手动图片
     Map<String ,Object> getPict() throws Exception;
     //系统随机抓拍图片
-    List<byte[]> getAuto(int sid, String date) throws Exception;
+    List<String> getAuto(int sid, String date) throws Exception;
     //教师抓拍图片
-    Map<String ,Object> getPict1() throws FileNotFoundException, Exception;
+    List<Object> getPict1() throws FileNotFoundException, Exception;
 
     void deletePict1();
 }

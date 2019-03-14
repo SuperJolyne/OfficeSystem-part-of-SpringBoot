@@ -14,7 +14,7 @@ public interface DayRemarkService {
 
     int updateDayRemark(int sid, String dayRemark);
 
-    int getScore(int sid, String date);
+    String getScore(int sid, String date);
 
     int saveScore(int sid, int score, String daycom,String date);
 

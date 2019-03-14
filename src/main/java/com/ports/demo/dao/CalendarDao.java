@@ -10,7 +10,7 @@ public interface CalendarDao {
 
     int insertDatelist(@Param("month") String month);
 
-    List<Calendar> getCalendar();
+    List<Calendar> getCalendar(@Param("date") String date);
 
     //获取月匹配是否有重复月
     String getMonth(@Param("month") String month);
@@ -30,4 +30,10 @@ public interface CalendarDao {
     void setWeek1(@Param("week")String week, @Param("worknot") String worknot, @Param("datelist") String datelist, @Param("weekday") int weekday, @Param("times") String times);
 
     int Days();
+
+    List<String> getMon();
+
+    String getWeek(String week);
+
+    List<Calendar> getWeeks();
 }

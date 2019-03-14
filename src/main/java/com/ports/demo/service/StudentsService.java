@@ -11,7 +11,7 @@ public interface StudentsService {
 
     List<String> getHistoryDate();
 
-    String login(String name);
+    String login(String num);
 
     int listStudents(String name,String sex,String num,String course,String school,
                      String college,String classes);

@@ -2,7 +2,7 @@ package com.ports.demo.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.ports.demo.normal.Context;
+import com.ports.demo.pojo.Context;
 import com.ports.demo.service.StudentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,13 +18,13 @@ public class DeleteStudent {
 
     @RequestMapping(value = "/teacher/deleteStudent", method = RequestMethod.POST)
     public String deleteStudent(@RequestBody String s){
-        JSONArray jsonArray = JSONArray.parseArray(s);
-        int size  = jsonArray.size();
-        for(int i=0;i<size;i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            int sid = jsonObject.getInteger(Context.Student_sid);
-            studentsService.deleteStudent(sid);
-        }
+        s = s.toLowerCase();
+        System.out.println("deleteStudent:"+s);
+        JSONObject json = JSONObject.parseObject(s);
+
+        int sid = json.getInteger(Context.Student_sid);
+        studentsService.deleteStudent(sid);
+
         return "{\"result\":\"true\"}";
     }
 }

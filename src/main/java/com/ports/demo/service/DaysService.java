@@ -16,7 +16,7 @@ public interface DaysService {
 
     int dayPlan(int sid, String dayPlan, int per);
 
-    int updatePer(int did, int per);
+    int updatePer(String did, int per);
 
     List<Days> getDayPlan(int sid,String date);
 

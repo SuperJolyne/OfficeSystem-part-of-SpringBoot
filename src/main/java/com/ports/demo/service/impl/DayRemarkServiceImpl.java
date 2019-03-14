@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ports.demo.dao.DayRemarkDao;
 import com.ports.demo.dao.StudentsDao;
 import com.ports.demo.domain.DayRemarks;
-import com.ports.demo.normal.Context;
+import com.ports.demo.pojo.Context;
 import com.ports.demo.service.DayRemarkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +48,7 @@ public class DayRemarkServiceImpl implements DayRemarkService {
     }
 
     @Override
-    public int getScore(int sid,String date) {
+    public String getScore(int sid,String date) {
         return dayRemarkDao.getScore(sid,date);
     }
 
@@ -79,8 +79,9 @@ public class DayRemarkServiceImpl implements DayRemarkService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public DayRemarks returnScore(int sid, int score, String daycom, String date) {
-        int i = dayRemarkDao.getScore(sid,date);
+        int i = Integer.parseInt(dayRemarkDao.getScore(sid,date));
         int fi = i-score;
+        dayRemarkDao.koufen(score,date,sid);
         dayRemarkDao.saveScore(sid,fi,daycom,date);
         return dayRemarkDao.returnScore(sid,date);
     }
